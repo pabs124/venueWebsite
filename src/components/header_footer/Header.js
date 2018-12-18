@@ -9,7 +9,8 @@ import SideDrawer from './SideDrawer'
 
 export default class Header extends Component {
     state= {
-        drawerOpen: false
+        drawerOpen: false,
+        headerShow: false
     }
 
     toggleDrawer = (value) => {
@@ -18,11 +19,27 @@ export default class Header extends Component {
         })
     }
 
+    componentDidMount(){
+        window.addEventListener('scroll', this.handleScroll)
+    }
+
+    handleScroll = () => {
+            if(window.scrollY > 0){
+            this.setState({
+                headerShow: true
+            })
+        } else {
+            this.setState({
+                headerShow: false
+            })
+        }
+    }
+
   render() {
     return (
         <AppBar position="fixed"
                 style={{
-                    backgroundColor: '#2f2f2f',
+                    backgroundColor: this.state.headerShow ? '#2f2f2f' : 'transparent',
                     boxShadow: 'none',
                     padding: '10px 0px'
                 }}
@@ -30,7 +47,7 @@ export default class Header extends Component {
             <ToolBar>
                 <div className='header_logo'>
                     <div className="font_righteous header_logo_venue">The Venue</div>
-                    <div className="header_logo_title">Musical Events</div>
+                    <div className="header_logo_title">CoupleBook</div>
                 </div>
                 <IconButton
                     aria-label='Menu'
